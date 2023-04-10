@@ -1,6 +1,8 @@
 package com.commitconf.demo;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,8 +35,13 @@ class UserController {
   static class ErrorHandler {
 
     @ExceptionHandler
-    public ResponseEntity<?> handleNotFound(UserNotFoundException e) {
-      return ResponseEntity.notFound().build();
+    public ProblemDetail handleNotFound(UserNotFoundException e) {
+      ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "The user doesn't exist");
+
+      pd.setTitle("User not found");
+      pd.setProperty("some-property", "bla, bla, bla");
+
+      return pd;
     }
   }
 
