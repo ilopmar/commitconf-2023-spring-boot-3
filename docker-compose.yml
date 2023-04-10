@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres:15.2
+    environment:
+      - POSTGRES_USER=user_demo
+      - POSTGRES_PASSWORD=mypass
+      - POSTGRES_DB=demodb
+    ports:
+      - 5432:5432
