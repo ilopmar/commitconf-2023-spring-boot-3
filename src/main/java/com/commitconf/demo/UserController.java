@@ -1,5 +1,6 @@
 package com.commitconf.demo;
 
+import io.micrometer.observation.annotation.Observed;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -20,11 +21,13 @@ class UserController {
   }
 
   @GetMapping("/users")
+  @Observed(name = "users", contextualName = "all")
   List<User> all() {
     return userRepository.findAll();
   }
 
   @GetMapping("/users/{id}")
+  @Observed(name = "users", contextualName = "byId")
   ResponseEntity<User> byId(@PathVariable Long id) {
     return userRepository.findById(id)
         .map(ResponseEntity::ok)

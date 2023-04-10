@@ -1,5 +1,7 @@
 package com.commitconf.demo;
 
+import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.aop.ObservedAspect;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,6 +38,11 @@ public class DemoApplication {
         .builder(webClientAdapter)
         .build()
         .createClient(UserClient.class);
+  }
+
+  @Bean
+  ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+    return new ObservedAspect(observationRegistry);
   }
 
 }
